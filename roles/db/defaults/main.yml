@@ -1,0 +1,10 @@
+---
+postgres_db: defaultdb
+postgres_user: defaultuser
+postgres_password: defaultpassword
+postgres_port: 5432
+postgres_volume: /var/lib/postgresql/data
+
+container_name : db
+image: "postgres"
+image_tag: "latest"
