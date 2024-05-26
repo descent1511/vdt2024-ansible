@@ -1,0 +1,19 @@
+- name: Build Docker image for web service
+  ansible.builtin.command:
+    cmd: docker build -t {{ web_image }}:{{ web_image_tag }} .
+  args:
+    chdir: "{{ web_clone_dest }}"
+
+- name: Check if Docker image was built
+  ansible.builtin.command:
+    cmd: docker images -q {{ web_image }}:{{ web_image_tag }}
+  register: docker_image_id
+
+- name: Print  web_image ID
+  ansible.builtin.debug:
+    msg: "Docker image ID: {{ docker_image_id.stdout }}"
+
+- name: Fail if Docker image was not built
+  ansible.builtin.fail:
+    msg: "Docker image {{ web_image }}:{{ web_image_tag }} was not built successfully."
+  when: docker_image_id.stdout == ""

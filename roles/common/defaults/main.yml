@@ -1,56 +1,44 @@
 ---
 docker_supported_architectures: ["x86_64", "arm64", "armhf", "armv7l", "s390x", "aarch64"]
 
-# Edition can be one of: 'ce' (Community Edition) or 'ee' (Enterprise Edition).
-docker_edition: 'ce'
-docker_packages:
-  - "docker-{{ docker_edition }}"
-  - "docker-{{ docker_edition }}-cli"
-  - "docker-{{ docker_edition }}-rootless-extras"
-  - "containerd.io"
-  - docker-buildx-plugin
-docker_packages_state: present
+docker_install: true
 
-# Service options.
-docker_service_manage: true
-docker_service_state: started
+docker_version: "latest"
+
+docker_bash_completion_install: true
+
+docker_daemon_config: {}
+
 docker_service_enabled: true
-docker_restart_handler_state: restarted
 
-# Docker Compose Plugin options.
-docker_install_compose_plugin: true
-docker_compose_package: docker-compose-plugin
-docker_compose_package_state: present
+docker_service_state: "started"
 
-# Docker Compose options.
-docker_install_compose: false
-docker_compose_version: "v2.11.1"
-docker_compose_arch: "{{ ansible_architecture }}"
-docker_compose_url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-{{ docker_compose_arch }}"
-docker_compose_path: /usr/local/bin/docker-compose
-
-# Enable repo setup
-docker_add_repo: true
-
-# Docker repo URL.
-docker_repo_url: https://download.docker.com/linux
-
-# Used only for Debian/Ubuntu/Pop!_OS/Linux Mint. Switch 'stable' to 'nightly' if needed.
-docker_apt_release_channel: stable
-# docker_apt_ansible_distribution is a workaround for Ubuntu variants which can't be identified as such by Ansible,
-# and is only necessary until Docker officially supports them.
-docker_apt_ansible_distribution: "{{ 'ubuntu' if ansible_distribution in ['Pop!_OS', 'Linux Mint'] else ansible_distribution }}"
-docker_apt_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
-# docker_apt_repository: "deb [arch={{ docker_apt_arch }} signed-by=/etc/apt/trusted.gpg.d/docker.asc] {{ docker_repo_url }}/{{ docker_apt_ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker_apt_release_channel }}"
-docker_apt_repository: "deb [arch={{ docker_apt_arch }} signed-by=/etc/apt/keyrings/docker.asc] {{ docker_repo_url }}/{{ docker_apt_ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker_apt_release_channel }}"
-docker_apt_ignore_key_error: true
-docker_apt_gpg_key: "{{ docker_repo_url }}/{{ docker_apt_ansible_distribution | lower }}/gpg"
-docker_apt_gpg_key_checksum: "sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570"
-docker_apt_filename: "docker"
-
-
-# A list of users who will be added to the docker group.
 docker_users: []
 
-# Docker daemon options as a dict
-docker_daemon_options: {}
+docker_sdk_for_python_install: false
+
+docker_sdk_for_python_version: "latest"
+
+docker_compose_install: false
+
+docker_compose_version: "latest"
+
+docker_compose_bash_completion_install: true
+
+docker_dependencies:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+
+docker_repo_url: "https://download.docker.com/linux/ubuntu"
+docker_gpg_url: "https://download.docker.com/linux/ubuntu/gpg"
+docker_repo_filename: "docker"
+docker_repo_options: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] {{ docker_repo_url }} {{ ansible_lsb.codename | lower }} stable"
+docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin

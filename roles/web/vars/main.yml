@@ -1,10 +1,4 @@
-web_container_name: "web_service"
-web_image: "my_web_app"
-web_image_tag: "latest"
-web_port: 8080
-web_env: "production"
-web_repo_url: "https://github.com/descent1511/vdt2024-ansible.git"
 web_repo_version: "develop"
+web_clone_dest: "/Documents/vdt/vdt2024-ansible/roles/web/files" 
 docker_user: descent
-docker_gpg_key_url: https://download.docker.com/linux/ubuntu/gpg
-docker_compose_url: https://github.com/docker/compose/releases/download/v2.17.2/docker-compose-Linux-x86_64
+env_file_path : "{{ clone_dest }}/.env"

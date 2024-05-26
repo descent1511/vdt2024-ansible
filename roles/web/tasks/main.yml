@@ -1,30 +1,8 @@
-- name: Clone web application repository
-  ansible.builtin.git:
-    repo: "https://{{ git_username }}:{{ git_password }}@github.com/descent1511/vdt2024-vuejs-frontend"
-    dest: /tmp/web-app/
-    version: "{{ web_repo_version }}"
-    force: yes
+- name: Set up code
+  include_tasks: set-up-code.yml
 
-
-- name: Build Docker image for web service
-  ansible.builtin.command:
-    cmd: docker build -t {{ web_image }}:{{ web_image_tag }} /tmp/web-app/
-  args:
-    chdir: /tmp/web-app/
-
-- name: Check if Docker image was built
-  ansible.builtin.command:
-    cmd: docker images -q {{ web_image }}:{{ web_image_tag }}
-  register: docker_image_id
-
-- name: Print Docker image ID
-  ansible.builtin.debug:
-    msg: "Docker image ID: {{ docker_image_id.stdout }}"
-
-- name: Fail if Docker image was not built
-  ansible.builtin.fail:
-    msg: "Docker image {{ web_image }}:{{ web_image_tag }} was not built successfully."
-  when: docker_image_id.stdout == ""
+- name: Build image
+  include_tasks: build-image.yml
   
 - name: Deploy web service container
   community.docker.docker_container:
@@ -33,5 +11,3 @@
     state: started
     ports:
       - "{{ web_port }}:80"
-    env:
-      APP_ENV: "{{ web_env }}"

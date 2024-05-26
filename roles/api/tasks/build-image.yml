@@ -1,0 +1,20 @@
+---
+- name: Build Docker image for api service
+  ansible.builtin.command:
+    cmd: docker build -t {{ api_image }}:{{ api_image_tag }} .
+  args:
+    chdir: "{{ clone_dest }}/users"
+
+- name: Check if Docker image was built
+  ansible.builtin.command:
+    cmd: docker images -q {{ api_image }}:{{ api_image_tag }}
+  register: docker_image_id
+
+- name: Print api_image ID
+  ansible.builtin.debug:
+    msg: "Docker image ID: {{ docker_image_id.stdout }}"
+
+- name: Fail if Docker image was not built
+  ansible.builtin.fail:
+    msg: "Docker image {{ api_image }}:{{ api_image_tag }} was not built successfully."
+  when: docker_image_id.stdout == ""

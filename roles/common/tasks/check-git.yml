@@ -1,6 +1,0 @@
----
-- name: Check if Git is installed
-  ansible.builtin.command:
-    cmd: git --version
-  register: git_version
-  ignore_errors: yes

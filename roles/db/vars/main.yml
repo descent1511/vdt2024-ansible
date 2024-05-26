@@ -1,0 +1,6 @@
+---
+postgres_db: vdt
+postgres_user: postgres
+postgres_password: "15112002"
+postgres_port: 5432
+postgres_volume: /var/lib/postgresql/data
