@@ -1,0 +1,4 @@
+web_repo_version: "develop"
+web_clone_dest: "/Documents/vdt/vdt2024-ansible/roles/web/files" 
+docker_user: descent
+env_file_path : "{{ clone_dest }}/.env"

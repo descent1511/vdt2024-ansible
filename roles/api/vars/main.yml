@@ -1,0 +1,24 @@
+---
+api_clone_dest: "/home/descent/Documents/vdt/vdt2024-ansible/roles/api/files"
+docker_user: descent
+env_file_path: "{{ clone_dest }}/users/.env"
+
+env_vars:
+  - key: DB_USER
+    value: "{{ db_user }}"
+  - key: DB_PASS
+    value: "{{ db_pass }}"
+  - key: DB_NAME
+    value: "{{ db_name }}"
+  - key: DB_HOST
+    value: "{{ db_host }}"
+  - key: SECRET_KEY
+    value: "{{ secret_key }}"
+  - key: BUCKET_NAME
+    value: "{{ bucket_name }}"
+  - key: BUCKET_REGION
+    value: "{{ bucket_region }}"
+  - key: ACCESS_KEY
+    value: "{{ access_key }}"
+  - key: SECRET_ACCESS_KEY
+    value: "{{ secret_access_key }}"

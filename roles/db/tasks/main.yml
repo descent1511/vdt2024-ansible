@@ -1,0 +1,31 @@
+---
+- name: Pull the latest PostgreSQL image
+  community.docker.docker_image:
+    name: postgres
+    tag: "{{ db_version }}"
+    source: pull
+
+- name: Run PostgreSQL container
+  community.docker.docker_container:
+    name: "{{ container_name }}"
+    image: postgres:{{ db_version }}
+    state: started
+    restart_policy: always
+    ports:
+      - "{{ postgres_port }}:5432"
+    env:
+      POSTGRES_DB: "{{ postgres_db }}"
+      POSTGRES_USER: "{{ postgres_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_password }}"
+    volumes:
+      - "{{ postgres_volume }}"
+    image_name_mismatch: recreate
+
+- name: Ensure PostgreSQL container is running
+  community.docker.docker_container_info:
+    name: "{{ container_name }}"
+  register: postgresql_container
+
+- name: Show container host information
+  debug:
+    msg: "The host of the container is {{ postgresql_container.container.NetworkSettings.IPAddress }}"

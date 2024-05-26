@@ -1,0 +1,8 @@
+web_container_name: "web_service"
+web_image: "my_web_app"
+web_image_tag: "latest"
+web_port: 8080
+web_repo_url: "https://github.com/descent1511/vdt2024-vuejs-frontend"
+web_repo_version: "main"
+
+web_git_credentials: "https://{{ git_username }}:{{ git_password }}@{{ web_repo_url | regex_replace('^https://', '') }}"
