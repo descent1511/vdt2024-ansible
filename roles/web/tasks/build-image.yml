@@ -2,7 +2,7 @@
   ansible.builtin.command:
     cmd: docker build -t {{ web_image }}:{{ web_image_tag }} .
   args:
-    chdir: "{{ clone_dest }}"
+    chdir: "{{ web_clone_dest }}"
 
 - name: Check if Docker image was built
   ansible.builtin.command:

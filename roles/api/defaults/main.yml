@@ -9,7 +9,7 @@ api_image_tag: "latest"
 
 api_port: 8000
 
-clone_dest: "/home/descent/Documents/Test" 
+git_credentials: "https://{{ git_username }}:{{ git_password }}@{{ api_repo_url | regex_replace('^https://', '') }}"
 
 api_repo_version: "develop"
 

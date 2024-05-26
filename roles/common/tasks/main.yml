@@ -2,9 +2,6 @@
 - name: Detect architecture.
   include_tasks: detect-architecture.yml
 
-- name : Install git.
-  include_tasks: install-git.yml
-
 - name: Install Docker (Debian).
   include_tasks: install-docker-Debian.yml
   when: ansible_os_family == 'Debian'

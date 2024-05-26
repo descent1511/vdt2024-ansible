@@ -1,4 +1,3 @@
----
 - name: Check if the destination directory already exists
   ansible.builtin.stat:
     path: "{{ clone_dest }}"
@@ -6,22 +5,25 @@
 
 - name: Clone api repository if it does not exist
   ansible.builtin.git:
-    repo: "https://{{ git_username }}:{{ git_password }}@{{ api_repo_url | regex_replace('^https://', '') }}"
-    dest: "{{ clone_dest }}"
+    repo: "{{ api_git_credentials }}"
+    dest: "{{ api_clone_dest }}"
     version: "{{ api_repo_version }}"
     force: yes
   when: not git_clone_dir.stat.exists
 
-- name: Update repository if already cloned
-  ansible.builtin.git:
-    repo: "https://{{ git_username }}:{{ git_password }}@{{ api_repo_url | regex_replace('^https://', '') }}"
-    dest: "{{ clone_dest }}"
-    version: "{{ api_repo_version }}"
-    force: yes
+
+- name: Pull the latest changes 
+  ansible.builtin.command:
+    cmd: "git pull origin {{ api_repo_version }}"
+    chdir: "{{ clone_dest }}"
   when: git_clone_dir.stat.exists
 
-- name: Copy .env file to the target directory
+
+- name: Create .env file with variables
   copy:
-    src: files/.env
-    dest: "{{ clone_dest }}/users"
+    dest: "{{ clone_dest }}/users/.env"
+    content: |
+      {% for env_var in env_vars %}
+      {{ env_var.key }}={{ env_var.value }}
+      {% endfor %}
     mode: '0644'

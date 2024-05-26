@@ -24,14 +24,19 @@
   ignore_errors: true
 
 - name: Deploy api service container
-  ansible.builtin.command:
-    cmd: docker run --env-file={{ env_file_path }} -d --name {{ api_container_name }} {{ api_image }}:{{ api_image_tag }}
+  community.docker.docker_container:
+    name: "{{ api_container_name }}"
+    image: "{{ api_image }}:{{ api_image_tag }}"
+    env_file: "{{ env_file_path }}"
+    ports:
+      - "{{ api_port }}:8000"
+    state: started
 
 - name: Show logs of the api service container
   ansible.builtin.command:
     cmd: docker logs {{ api_container_name }}
   register: container_logs
-  
+
 - name: Display container logs
   debug:
     var: container_logs.stdout

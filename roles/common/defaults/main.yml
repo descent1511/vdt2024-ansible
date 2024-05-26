@@ -1,39 +1,44 @@
 ---
-# List of Docker supported architectures
 docker_supported_architectures: ["x86_64", "arm64", "armhf", "armv7l", "s390x", "aarch64"]
 
-# If True, Docker will be installed
 docker_install: true
 
-# Docker version
 docker_version: "latest"
 
-# If True, Docker bash completion will be installed
 docker_bash_completion_install: true
 
-# Docker daemon configuration
 docker_daemon_config: {}
 
-# Whether Docker service should start on boot
 docker_service_enabled: true
 
-# State of Docker service
 docker_service_state: "started"
 
-# List of users to be added to docker group
 docker_users: []
 
-# If True, Docker SDK for Python will be installed
 docker_sdk_for_python_install: false
 
-# Docker SDK for Python version
 docker_sdk_for_python_version: "latest"
 
-# If True, Docker Compose will be installed
 docker_compose_install: false
 
-# Docker Compose version
 docker_compose_version: "latest"
 
-# If True, Docker Compose bash completion will be installed
 docker_compose_bash_completion_install: true
+
+docker_dependencies:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+
+docker_repo_url: "https://download.docker.com/linux/ubuntu"
+docker_gpg_url: "https://download.docker.com/linux/ubuntu/gpg"
+docker_repo_filename: "docker"
+docker_repo_options: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] {{ docker_repo_url }} {{ ansible_lsb.codename | lower }} stable"
+docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin
