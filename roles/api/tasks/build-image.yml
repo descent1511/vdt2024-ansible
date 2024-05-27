@@ -3,7 +3,7 @@
   ansible.builtin.command:
     cmd: docker build -t {{ api_image }}:{{ api_image_tag }} .
   args:
-    chdir: "{{ clone_dest }}/users"
+    chdir: "{{ api_clone_dest }}/users"
 
 - name: Check if Docker image was built
   ansible.builtin.command:
