@@ -14,3 +14,5 @@ git_credentials: "https://{{ git_username }}:{{ git_password }}@{{ api_repo_url 
 api_repo_version: "main"
 
 docker_user: descent
+
+sync_repo : true
