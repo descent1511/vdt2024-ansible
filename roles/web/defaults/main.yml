@@ -6,3 +6,5 @@ web_repo_url: "https://github.com/descent1511/vdt2024-vuejs-frontend"
 web_repo_version: "main"
 
 web_git_credentials: "https://{{ git_username }}:{{ git_password }}@{{ web_repo_url | regex_replace('^https://', '') }}"
+
+sync_repo : true
