@@ -1,8 +1,8 @@
 ---
 api_clone_dest: "/home/descent/Documents/vdt/vdt2024-ansible/roles/api/files"
 docker_user: descent
-env_file_path: "{{ clone_dest }}/users/.env"
-
+env_file_path: "{{ api_clone_dest }}/users/.env"
+api_repo_version: "develop"
 env_vars:
   - key: DB_USER
     value: "{{ db_user }}"

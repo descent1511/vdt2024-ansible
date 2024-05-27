@@ -1,14 +1,18 @@
 ---
-- name: Install docker
-  hosts: 
-    - all_hosts
+- name: Install Docker
+  hosts: all_hosts
   become: true
+  vars:
+    docker_sdk_for_python_install: true
+    docker_compose_install: true
   roles:
     - common
 
 - name: Deploy API and Database on localhost
   hosts: apiserver
   become: yes
+  vars:
+    sync_repo: true
   vars_files:
     - vault.yml
   roles:
@@ -18,6 +22,8 @@
 - name: Deploy Web Application and Configure NGINX on remotehost
   hosts: webserver
   become: yes
+  vars:
+    sync_repo: false
   vars_files:
     - vault.yml
   roles:

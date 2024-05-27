@@ -1,7 +1,8 @@
 ---
 - name: Set up code
   include_tasks: set-up-code.yml
-
+  when: sync_repo
+  
 - name: Build image
   include_tasks: build-image.yml
 
